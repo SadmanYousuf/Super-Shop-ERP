@@ -1,0 +1,1692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Shop Dashboard</title>
+    <!-- Outfit Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+    <link rel="stylesheet" href="index.css">
+    <script defer src="index.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-icon">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#7c3aed"/><path d="M8 16h16M16 8v16" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/><circle cx="16" cy="16" r="10" stroke="#fff" stroke-width="1.5" stroke-dasharray="2 3"/></svg>
+                </div>
+                <div class="logo-text">
+                    <h2>Super Shop</h2>
+                    <span>Supermarket ERP</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <button class="nav-item active" data-target="view-dashboard" data-roles="admin,superadmin,manager,account head">
+                    <i data-lucide="layout-dashboard"></i>
+                    <span> Dashboard</span>
+                </button>
+                <button class="nav-item" data-target="view-pos" data-roles="admin,superadmin,cashier,manager">
+                    <i data-lucide="shopping-cart"></i>
+                    <span> POS</span>
+                </button>
+                <div class="nav-divider"></div>
+                <button class="nav-item" data-target="view-products" data-roles="admin,superadmin,manager,warehouse">
+                    <i data-lucide="package"></i>
+                    <span> Products</span>
+                </button>
+                <button class="nav-item" data-target="view-inventory" data-roles="admin,superadmin,manager,warehouse">
+                    <i data-lucide="package-plus"></i>
+                    <span> Inventory</span>
+                </button>
+                <button class="nav-item" data-target="view-stock-transfer" data-roles="admin,superadmin,manager,warehouse">
+                    <i data-lucide="arrow-left-right"></i>
+                    <span> Stock Transfer</span>
+                </button>
+                <button class="nav-item" data-target="view-stock-audit" data-roles="admin,superadmin,manager">
+                    <i data-lucide="clipboard-check"></i>
+                    <span> Stock Audit</span>
+                </button>
+                <button class="nav-item" data-target="view-purchases" data-roles="admin,superadmin,manager,warehouse,account head">
+                    <i data-lucide="truck"></i>
+                    <span> Purchase Orders</span>
+                </button>
+                <button class="nav-item" data-target="view-purchase-returns" data-roles="admin,superadmin,manager,warehouse">
+                    <i data-lucide="rotate-ccw"></i>
+                    <span> Purchase Returns</span>
+                </button>
+                <button class="nav-item" data-target="view-grn" data-roles="admin,superadmin,warehouse,manager">
+                    <i data-lucide="clipboard-list"></i>
+                    <span> Goods Receive</span>
+                </button>
+                <div class="nav-divider"></div>
+                <button class="nav-item" data-target="view-sales" data-roles="admin,superadmin,manager,account head">
+                    <i data-lucide="receipt"></i>
+                    <span> Sales</span>
+                </button>
+                <button class="nav-item" data-target="view-sales-returns" data-roles="admin,superadmin,manager">
+                    <i data-lucide="rotate-ccw"></i>
+                    <span> Sales Returns</span>
+                </button>
+                <button class="nav-item" data-target="view-customers" data-roles="admin,superadmin,manager">
+                    <i data-lucide="heart"></i>
+                    <span> Customer Loyalty</span>
+                </button>
+                <button class="nav-item" data-target="view-suppliers" data-roles="admin,superadmin,account head">
+                    <i data-lucide="truck"></i>
+                    <span> Suppliers</span>
+                </button>
+                <div class="nav-divider"></div>
+                <button class="nav-item" data-target="view-accounting" data-roles="admin,superadmin,account head">
+                    <i data-lucide="book-open"></i>
+                    <span> Accounting</span>
+                </button>
+                <button class="nav-item" data-target="view-vat" data-roles="admin,superadmin,account head">
+                    <i data-lucide="badge-percent"></i>
+                    <span> VAT</span>
+                </button>
+                <button class="nav-item" data-target="view-wastage" data-roles="admin,superadmin,manager,warehouse">
+                    <i data-lucide="trash-2"></i>
+                    <span> Wastage</span>
+                </button>
+                <button class="nav-item" data-target="view-analytics" data-roles="admin,superadmin,account head">
+                    <i data-lucide="bar-chart-3"></i>
+                    <span> Analytics</span>
+                </button>
+                <button class="nav-item" data-target="view-widgets" data-roles="admin,superadmin,manager,account head">
+                    <i data-lucide="layout-grid"></i>
+                    <span> Widgets</span>
+                </button>
+                <button class="nav-item" data-target="view-barcode" data-roles="admin,superadmin,manager,cashier,warehouse">
+                    <i data-lucide="scan-line"></i>
+                    <span> Barcode</span>
+                </button>
+                <div class="nav-divider"></div>
+                <button class="nav-item" data-target="view-reports" data-roles="admin,superadmin,manager,account head">
+                    <i data-lucide="file-text"></i>
+                    <span> Reports</span>
+                </button>
+                <button class="nav-item" data-target="view-api-docs" data-roles="admin,superadmin">
+                    <i data-lucide="book-open"></i>
+                    <span> API Docs</span>
+                </button>
+                <button class="nav-item" data-target="view-audit-log" data-roles="admin,superadmin">
+                    <i data-lucide="shield"></i>
+                    <span> Security</span>
+                </button>
+                <button class="nav-item" data-target="view-settings" data-roles="admin,superadmin">
+                    <i data-lucide="settings"></i>
+                    <span> System</span>
+                </button>
+                <button class="nav-item" data-target="view-branches" data-roles="admin,superadmin">
+                    <i data-lucide="building-2"></i>
+                    <span> Branches</span>
+                </button>
+                <button class="nav-item" data-target="view-users" data-roles="admin,superadmin">
+                    <i data-lucide="users"></i>
+                    <span> User Accounts</span>
+                </button>
+                <div class="nav-divider"></div>
+                <button id="btn-change-pw" class="sidebar-nav-action hidden" onclick="showChangePassword()">
+                    <i data-lucide="settings"></i>
+                    <span> Account</span>
+                </button>
+            </nav>
+            <div class="sidebar-footer">
+                <button id="btn-signout" class="sidebar-action-btn hidden" onclick="logout()"><i data-lucide="log-out"></i> Sign Out</button>
+                <div class="sidebar-status">
+                    <span class="status-indicator"></span>
+                    <span class="status-text">Core Engine Live</span>
+                </div>
+            </div>
+        </aside>
+
+        <div class="user-float hidden" id="user-float">
+            <i data-lucide="user-circle"></i>
+            <span id="float-username">—</span>
+            <span class="float-role" id="float-role">—</span>
+        </div>
+
+        <!-- Main Wrapper for Topbar & Content -->
+        <div class="main-wrapper">
+            <!-- Topbar -->
+            <div class="topbar">
+                <div class="topbar-left">
+                    <div class="global-search">
+                        <i data-lucide="search"></i>
+                        <input type="text" id="global-search" placeholder="Search products, sales, invoices..." onkeydown="if(event.key==='Enter')globalSearch()" oninput="globalSearchLive()" autocomplete="off">
+                        <div class="search-dropdown" id="search-dropdown"></div>
+                    </div>
+                </div>
+                <div class="topbar-center">
+                    <nav class="breadcrumb" id="breadcrumb">
+                        <span class="bc-home"><i data-lucide="home"></i></span>
+                        <span class="bc-sep">/</span>
+                        <span class="bc-current" id="bc-current">Dashboard</span>
+                    </nav>
+                </div>
+                <div class="topbar-right">
+                    <button class="topbar-icon-btn" id="btn-theme" onclick="toggleTheme()" title="Toggle Theme">
+                        <i data-lucide="moon" id="theme-icon"></i>
+                    </button>
+                    <div class="user-dropdown" id="notif-container">
+                        <button class="topbar-icon-btn" onclick="toggleNotifPanel()" title="Notifications">
+                            <i data-lucide="bell"></i>
+                            <span class="notif-badge" id="notif-badge">0</span>
+                        </button>
+                        <div class="notif-dropdown" id="notif-dropdown">
+                            <div class="notif-header">
+                                <strong>Notifications</strong>
+                                <button onclick="markAllNotifRead()">Mark all read</button>
+                            </div>
+                            <div class="notif-list" id="notif-list">
+                                <div class="notif-empty">No notifications</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="user-dropdown" id="user-dropdown-container">
+                        <button class="user-dropdown-btn" onclick="toggleUserDropdown()">
+                            <i data-lucide="user-circle"></i>
+                            <span id="topbar-username">Sign In</span>
+                            <i data-lucide="chevron-down" class="dropdown-arrow"></i>
+                        </button>
+                        <div class="user-dropdown-menu" id="user-dropdown-menu">
+                            <div class="dropdown-user-info">
+                                <strong id="dd-username">—</strong>
+                                <span id="dd-role">—</span>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            <button onclick="showMyProfile()"><i data-lucide="user-circle"></i> My Profile</button>
+                            <button onclick="showChangePassword()"><i data-lucide="key-round"></i> Change Password</button>
+                            <button onclick="switchView('view-audit-log')"><i data-lucide="history"></i> Activity Log</button>
+                            <button onclick="switchView('view-settings')"><i data-lucide="settings"></i> Settings</button>
+                            <div class="dropdown-divider"></div>
+                            <button id="btn-signout-dd" class="hidden" onclick="logout()"><i data-lucide="log-out"></i> Logout</button>
+                            <button id="btn-login-dd" onclick="showLoginModal()"><i data-lucide="log-in"></i> Sign In</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Workspace Content -->
+            <main class="main-content">
+            <div id="toast-container" class="toast-container"></div>
+
+            <!-- Login Modal -->
+            <div id="login-modal" class="modal hidden">
+                <div class="modal-content">
+                    <h3>Sign In</h3>
+                    <form id="login-form" onsubmit="submitLogin(event)">
+                        <div class="form-group">
+                            <label for="login-username">Username</label>
+                            <input id="login-username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="login-password">Password</label>
+                            <input id="login-password" type="password" required>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="submit-btn">Sign In</button>
+                            <button type="button" class="clear-btn" onclick="hideLoginModal()">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Account Settings Modal (Username + Password) -->
+            <div id="change-pw-modal" class="modal-overlay" style="display:none" onclick="if(event.target===this)hideChangePassword()">
+                <div class="modal-box" style="min-width:380px" onclick="event.stopPropagation()">
+                    <div class="modal-header">
+                        <h3>Account Settings</h3>
+                        <button type="button" class="modal-close" onclick="hideChangePassword()">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-section">
+                            <h4 style="margin:0 0 0.75rem;color:var(--text-bright)">Change Username</h4>
+                            <div class="form-group">
+                                <label for="chgusr-current">Current Username</label>
+                                <input id="chgusr-current" disabled style="opacity:0.6">
+                            </div>
+                            <div class="form-group">
+                                <label for="chgusr-new">New Username</label>
+                                <input id="chgusr-new" placeholder="Enter new username">
+                            </div>
+                            <div class="form-group">
+                                <label for="chgusr-pw">Confirm Password</label>
+                                <input id="chgusr-pw" type="password" placeholder="Enter password to confirm">
+                            </div>
+                            <button type="button" class="submit-btn" style="width:100%" onclick="submitChangeUsername()">Update Username</button>
+                        </div>
+                        <hr style="border-color:rgba(255,255,255,0.06);margin:1rem 0">
+                        <div class="form-section">
+                            <h4 style="margin:0 0 0.75rem;color:var(--text-bright)">Change Password</h4>
+                            <div class="form-group">
+                                <label for="chgpw-current">Current Password</label>
+                                <input id="chgpw-current" type="password" placeholder="Enter current password">
+                            </div>
+                            <div class="form-group">
+                                <label for="chgpw-new">New Password</label>
+                                <input id="chgpw-new" type="password" placeholder="Enter new password">
+                            </div>
+                            <div class="form-group">
+                                <label for="chgpw-confirm">Confirm New Password</label>
+                                <input id="chgpw-confirm" type="password" placeholder="Confirm new password">
+                            </div>
+                            <div id="chgpw-error" class="error-msg"></div>
+                            <button type="button" class="submit-btn" style="width:100%" onclick="submitChangePassword()">Update Password</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quantity Prompt Modal -->
+            <div id="qty-prompt-modal" class="modal-overlay" style="display:none" onclick="if(event.target===this)document.getElementById('qty-prompt-modal').style.display='none'">
+                <div class="modal-box" style="min-width:300px;max-width:360px" onclick="event.stopPropagation()">
+                    <div class="modal-header">
+                        <h3>Enter Weight</h3>
+                        <button type="button" class="modal-close" onclick="document.getElementById('qty-prompt-modal').style.display='none'">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <p style="font-size:1.1rem;font-weight:600" id="qty-prompt-title">Product</p>
+                        <p style="color:var(--text-dim);font-size:0.9rem">Price: <strong id="qty-prompt-price">৳0.00</strong> / <span id="qty-prompt-unit">KG</span></p>
+                        <div class="form-group" style="margin:1rem 0">
+                            <label>Weight (<span id="qty-prompt-unit-label">KG</span>)</label>
+                            <input type="number" id="qty-prompt-value" value="1" min="0.01" step="0.1" style="font-size:1.5rem;padding:0.6rem;text-align:center" oninput="updateQtyPromptTotal()" onkeydown="if(event.key==='Enter')confirmQtyPrompt()">
+                        </div>
+                        <p style="text-align:center;font-size:1.3rem;font-weight:700">Total: <span id="qty-prompt-total">৳0.00</span></p>
+                        <input type="hidden" id="qty-prompt-id">
+                        <button type="button" class="submit-btn" style="width:100%;margin-top:0.5rem" onclick="confirmQtyPrompt()">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Receipt Modal (80mm Thermal POS Invoice) -->
+            <div id="receipt-modal" class="modal hidden">
+                <div class="modal-content receipt-modal-content">
+                    <div class="receipt-logo-area">
+                        <div class="receipt-logo-placeholder" id="receipt-logo-placeholder">&#x1f4b0;</div>
+                        <h2 class="receipt-company-name" id="receipt-company-name">SUPER SHOP</h2>
+                        <p class="receipt-tagline" id="receipt-tagline">Your Neighborhood Market</p>
+                        <p class="receipt-address" id="receipt-address">House 12, Road 5, Agrabad<br>Chattogram, Bangladesh</p>
+                        <p class="receipt-contact" id="receipt-contact">Phone: +880 1XXX-XXXXXX<br>Email: support@supershop.com</p>
+                    </div>
+                    <div class="receipt-divider"></div>
+                    <div class="receipt-bill-info">
+                        <div class="receipt-bill-row"><span class="receipt-label">Bill No:</span><span class="receipt-value" id="receipt-invoice-id">#0000</span></div>
+                        <div class="receipt-bill-row"><span class="receipt-label">Date:</span><span class="receipt-value" id="receipt-date">-</span></div>
+                        <div class="receipt-bill-row"><span class="receipt-label">Time:</span><span class="receipt-value" id="receipt-time">-</span></div>
+                        <div class="receipt-bill-row"><span class="receipt-label">Cashier:</span><span class="receipt-value" id="receipt-cashier">-</span></div>
+                        <div class="receipt-bill-row"><span class="receipt-label">Branch:</span><span class="receipt-value" id="receipt-branch">Main Branch</span></div>
+                    </div>
+                    <div class="receipt-divider"></div>
+                    <div class="receipt-body">
+                        <table class="receipt-table" id="tbl-receipt-items">
+                            <thead>
+                                <tr>
+                                    <th class="receipt-th-item">Item</th>
+                                    <th class="receipt-th-qty">Qty</th>
+                                    <th class="receipt-th-price">Price</th>
+                                    <th class="receipt-th-total">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="receipt-divider"></div>
+                    <div class="receipt-summary">
+                        <div class="receipt-summary-row"><span>Subtotal:</span><span id="receipt-subtotal">৳0.00</span></div>
+                        <div class="receipt-summary-row"><span>Discount:</span><span id="receipt-discount">৳0.00</span></div>
+                        <div class="receipt-summary-row"><span>VAT (5%):</span><span id="receipt-vat">৳0.00</span></div>
+                        <div class="receipt-summary-row receipt-summary-total"><span>Grand Total:</span><strong id="receipt-total-amount">৳0.00</strong></div>
+                    </div>
+                    <div class="receipt-divider"></div>
+                    <div class="receipt-payment">
+                        <div class="receipt-bill-row"><span class="receipt-label">Payment:</span><span class="receipt-value" id="receipt-payment-method">Cash</span></div>
+                        <div class="receipt-bill-row"><span class="receipt-label">Paid:</span><span class="receipt-value" id="receipt-paid">৳0.00</span></div>
+                        <div class="receipt-bill-row"><span class="receipt-label">Change:</span><span class="receipt-value" id="receipt-change">৳0.00</span></div>
+                    </div>
+                    <div class="receipt-divider"></div>
+                    <div class="receipt-footer">
+                        <p class="receipt-thanks">Thank you for your purchase!</p>
+                        <p class="receipt-footer-text" id="receipt-footer-text">Please visit again</p>
+                        <div class="receipt-qr" id="receipt-qr">
+                            <pre>&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;<br>&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;<br>&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;</pre>
+                        </div>
+                        <p class="receipt-website" id="receipt-website">www.supershop.com</p>
+                        <p class="receipt-return-policy" id="receipt-return-policy">Returns accepted within 7 days with original receipt</p>
+                    </div>
+                    <div class="form-actions no-print" style="margin-top: 1rem; gap: 0.5rem;">
+                        <button type="button" class="submit-btn" onclick="printReceipt()"><i data-lucide="printer"></i> Print Receipt</button>
+                        <button type="button" class="clear-btn" onclick="hideReceiptModal()">Close</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW: DASHBOARD -->
+            <section id="view-dashboard" class="content-view active">
+                <header class="view-header">
+                    <h1>Super Shop Dashboard</h1>
+                    <p>Real-time overview of your supermarket business</p>
+                </header>
+
+                <!-- KPI Cards -->
+                <div class="kpi-grid">
+                    <div class="kpi-card kpi-revenue">
+                        <div class="kpi-top-row">
+                            <div class="kpi-icon"><i data-lucide="wallet"></i></div>
+                            <span class="kpi-trend up"><i data-lucide="trending-up"></i> +12.5%</span>
+                        </div>
+                        <div class="kpi-info">
+                            <span class="kpi-label">Total Revenue</span>
+                            <span class="kpi-value" id="lbl-total-revenue">৳0.00</span>
+                            <span class="kpi-sub">vs last month</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card kpi-profit">
+                        <div class="kpi-top-row">
+                            <div class="kpi-icon"><i data-lucide="trending-up"></i></div>
+                            <span class="kpi-trend up"><i data-lucide="trending-up"></i> +8.3%</span>
+                        </div>
+                        <div class="kpi-info">
+                            <span class="kpi-label">Net Profit</span>
+                            <span class="kpi-value" id="lbl-net-profit">৳0.00</span>
+                            <span class="kpi-sub">after expenses</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card kpi-sales">
+                        <div class="kpi-top-row">
+                            <div class="kpi-icon"><i data-lucide="shopping-cart"></i></div>
+                            <span class="kpi-trend up"><i data-lucide="trending-up"></i> +5.2%</span>
+                        </div>
+                        <div class="kpi-info">
+                            <span class="kpi-label">Total Sales</span>
+                            <span class="kpi-value" id="stat-sale-count">0</span>
+                            <span class="kpi-sub">transactions</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card kpi-stock">
+                        <div class="kpi-top-row">
+                            <div class="kpi-icon"><i data-lucide="alert-triangle"></i></div>
+                            <span class="kpi-trend down"><i data-lucide="trending-down"></i> +3</span>
+                        </div>
+                        <div class="kpi-info">
+                            <span class="kpi-label">Low Stock Alerts</span>
+                            <span class="kpi-value" id="stat-low-stock">0</span>
+                            <span class="kpi-sub">needs attention</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mini Stats Row -->
+                <div class="mini-stats-grid">
+                    <div class="mini-stat">
+                        <span class="mini-label">Today</span>
+                        <span class="mini-value" id="stat-today-sales">৳0</span>
+                    </div>
+                    <div class="mini-stat">
+                        <span class="mini-label">This Week</span>
+                        <span class="mini-value" id="stat-weekly-sales">৳0</span>
+                    </div>
+                    <div class="mini-stat">
+                        <span class="mini-label">This Month</span>
+                        <span class="mini-value" id="stat-monthly-sales">৳0</span>
+                    </div>
+                    <div class="mini-stat">
+                        <span class="mini-label">Active Products</span>
+                        <span class="mini-value" id="stat-active-products">0</span>
+                    </div>
+                    <div class="mini-stat">
+                        <span class="mini-label">Inventory Value</span>
+                        <span class="mini-value" id="stat-inventory-value">৳0</span>
+                    </div>
+                    <div class="mini-stat">
+                        <span class="mini-label">Customers</span>
+                        <span class="mini-value" id="stat-total-customers">0</span>
+                    </div>
+                    <div class="mini-stat">
+                        <span class="mini-label">Suppliers</span>
+                        <span class="mini-value" id="stat-total-suppliers">0</span>
+                    </div>
+                    <div class="mini-stat">
+                        <span class="mini-label">Branches</span>
+                        <span class="mini-value" id="stat-branches">0</span>
+                    </div>
+                </div>
+
+                <!-- Chart Grid: 4 charts -->
+                <div class="chart-grid">
+                    <div class="glass-card chart-card">
+                        <div class="card-header">
+                            <h3><i data-lucide="trending-up"></i> Sales Trend</h3>
+                        </div>
+                        <div class="chart-container"><canvas id="chart-sales-trend"></canvas></div>
+                    </div>
+                    <div class="glass-card chart-card">
+                        <div class="card-header">
+                            <h3><i data-lucide="bar-chart-3"></i> Revenue vs Expense</h3>
+                        </div>
+                        <div class="chart-container"><canvas id="chart-rev-expense"></canvas></div>
+                    </div>
+                    <div class="glass-card chart-card">
+                        <div class="card-header">
+                            <h3><i data-lucide="pie-chart"></i> Category Sales</h3>
+                        </div>
+                        <div class="chart-container"><canvas id="chart-category-pie"></canvas></div>
+                    </div>
+                    <div class="glass-card chart-card">
+                        <div class="card-header">
+                            <h3><i data-lucide="area-chart"></i> Monthly Profit</h3>
+                        </div>
+                        <div class="chart-container"><canvas id="chart-monthly-profit"></canvas></div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity + Wastage + Payables -->
+                <div class="dash-two-col">
+                    <div class="glass-card">
+                        <div class="card-header">
+                            <h3><i data-lucide="clock"></i> Recent Activity</h3>
+                        </div>
+                        <div class="activity-list" id="dash-recent-activity">
+                            <p class="chart-empty">No recent activity</p>
+                        </div>
+                    </div>
+                    <div class="glass-card">
+                        <div class="card-header">
+                            <h3><i data-lucide="trash-2"></i> Wastage History</h3>
+                        </div>
+                        <div class="table-container compact-table">
+                            <table id="tbl-wastage-history-dash">
+                                <thead>
+                                    <tr><th>Product</th><th>Qty</th><th>Loss</th><th>Reason</th></tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="glass-card" style="margin-top:1rem;">
+                    <div class="card-header">
+                        <h3><i data-lucide="wallet"></i> Supplier Payables</h3>
+                        <span class="total-payable-label">Total: <strong id="lbl-total-payable">৳0.00</strong></span>
+                    </div>
+                    <div class="table-container compact-table">
+                        <table id="tbl-supplier-summary-dash">
+                            <thead>
+                                <tr><th>Supplier</th><th>Invoiced</th><th>Settled</th><th>Payable</th></tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW: DYNAMIC PRODUCT INTAKE -->
+            <section id="view-inventory" class="content-view">
+                <header class="view-header">
+                    <h1>Dynamic Inventory & Product Entry</h1>
+                    <p>Add new products to your super shop inventory</p>
+                </header>
+
+                <div class="inventory-layout">
+                    <!-- Right Side Input Form -->
+                    <div class="glass-card form-box">
+                        <form id="product-entry-form" class="custom-form" onsubmit="handleProductSubmit(event)">
+                            <div class="form-group">
+                                <label for="product-title">Product Title</label>
+                                <input type="text" id="product-title" name="title" placeholder="e.g. Chicken Breast, Ice Cream" required>
+                            </div>
+
+                            <div id="veg-fields" class="form-sub-section">
+                                <div class="form-row">
+                                    <div class="form-group flex-1">
+                                        <label for="veg-barcode">Barcode (auto-generated if blank)</label>
+                                        <input type="text" id="veg-barcode" name="sku_barcode" placeholder="Leave blank to auto-generate (e.g. PRD-00001)">
+                                    </div>
+                                    <div class="form-group flex-1">
+                                        <label for="veg-uom">Unit of Measure (UOM)</label>
+                                        <input type="text" id="veg-uom" name="unit_of_measure" list="uom-options" placeholder="Type or select e.g. KG, Gram, Pcs, Bundle" value="KG">
+                                        <datalist id="uom-options">
+                                            <option value="KG">KG</option>
+                                            <option value="Gram">Gram</option>
+                                            <option value="Pcs">Pcs</option>
+                                            <option value="Bundle">Bundle</option>
+                                            <option value="LTR">LTR</option>
+                                            <option value="BTL">BTL</option>
+                                            <option value="PKG">PKG</option>
+                                        </datalist>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="veg-intake-qty">Daily Sourcing Loader (Quantity Received)</label>
+                                    <input type="number" id="veg-intake-qty" step="0.01" min="0" placeholder="e.g. 150.00">
+                                </div>
+                            </div>
+
+                            <!-- Price Allocation Section -->
+                            <div class="price-allocation-card">
+                                <h4>Price and Sourcing Cost Matrix</h4>
+                                <div class="form-row">
+                                    <div class="form-group flex-1">
+                                        <label for="cost-price">Cost Price per unit (৳)</label>
+                                        <input type="number" id="cost-price" name="cost_price" step="0.01" min="0" placeholder="0.00" required oninput="calculateMarginRecommendation()">
+                                    </div>
+                                    <div class="form-group flex-1">
+                                        <label for="selling-price">Selling Price / Target Retail (৳)</label>
+                                        <input type="number" id="selling-price" name="selling_price" step="0.01" min="0" placeholder="0.00" required>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Wholesalers/Lot Suppliers -->
+                            <div class="form-group">
+                                <label for="supplier-name">Acquiring Supplier Balance Allocation</label>
+                                <input type="text" id="supplier-name" name="supplier_name" placeholder="e.g. Wholesale Outfitter or Sunrise Farms">
+                                <small>Leaves ledger transaction to accounts payable balance on save.</small>
+                            </div>
+
+                            <button type="submit" class="submit-btn" id="btn-save-product">
+                                <i data-lucide="check"></i> Commit Entry to Database
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Left Side Product Database Overview -->
+                    <div class="glass-card table-box">
+                        <div class="table-header">
+                            <h3>Active Inventory Records</h3>
+                            <div class="search-bar">
+                                <i data-lucide="search"></i>
+                                <input type="text" id="inventory-search" placeholder="Search by title or barcode" oninput="loadInventoryTable()">
+                            </div>
+                        </div>
+                        <div class="table-container list-table">
+                            <table id="tbl-active-inventory">
+                                <thead>
+                                    <tr>
+                                        <th>Item/UOM</th>
+                                        <th>Type</th>
+                                        <th>Barcode</th>
+                                        <th>Cost</th>
+                                        <th>Retail Price</th>
+                                        <th>Active Stocks</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Rendered dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Price Configurator Console -->
+                <div class="glass-card margin-top">
+                    <div class="card-header">
+                        <h3><i data-lucide="sliders-horizontal"></i> Price Configurator Console</h3>
+                        <p>Update cost and retail prices for all products</p>
+                    </div>
+                    <div class="price-search-bar">
+                        <i data-lucide="search"></i>
+                        <input type="text" id="price-search-input" placeholder="Search product..." oninput="filterPriceConfigurator()">
+                    </div>
+                    <form id="price-configurator-form" onsubmit="saveFloatingPrices(event)">
+                        <div class="config-table-container">
+                            <table id="tbl-price-configurator">
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>UOM</th>
+                                        <th>Stock</th>
+                                        <th>Adjust Cost (৳)</th>
+                                        <th>Current Retail</th>
+                                        <th>Adjust Retail (৳)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Populated dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="submit-btn update-btn" id="btn-apply-floating-prices">
+                                <i data-lucide="refresh-cw"></i> Save Price Updates
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- VIEW: INTELLIGENT POINT OF SALE (POS) -->
+            <section id="view-pos" class="content-view">
+                <header class="view-header">
+                    <h1>POS Checkout Registry</h1>
+                    <p>Execute transactions with auto-intercept validations</p>
+                </header>
+
+                <div class="pos-layout">
+                    <!-- Left Column: Products Scanner, Scale API & Cart list -->
+                    <div class="glass-card pos-registry">
+                        <div class="scanner-simulation-bar">
+                            <div class="input-scanner-wrapper">
+                                <i data-lucide="scan-barcode"></i>
+                                <input type="text" id="pos-barcode-scanner" placeholder="Scan Barcode (e.g. TS-2026-0001, VEG-TOMATO) and press Enter..." onkeypress="handleBarcodeScan(event)">
+                            </div>
+                        </div>
+
+                        <!-- Quick select product grid -->
+                        <div class="pos-quick-select">
+                            <h4>Quick Add Catalog</h4>
+                            <div class="quick-grid" id="pos-quick-grid">
+                                <!-- Populated dynamically -->
+                            </div>
+                        </div>
+
+                        <!-- Active Cart -->
+                        <div class="pos-cart-header">
+                            <h3><i data-lucide="shopping-bag"></i> Checkout Line Items</h3>
+                            <button type="button" class="clear-btn" onclick="clearCart()"><i data-lucide="trash-2"></i> Clear Cart</button>
+                        </div>
+                        <div class="pos-cart-container">
+                            <table id="tbl-pos-cart" class="pos-table">
+                                <thead>
+                                    <tr>
+                                        <th>Description</th>
+                                        <th>Barcode</th>
+                                        <th>Unit Cost</th>
+                                        <th>Weighted Qty</th>
+                                        <th>Row Subtotal</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="cart-rows">
+                                    <!-- Rendered dynamically -->
+                                    <tr class="empty-cart-row">
+                                        <td colspan="6">No items scanned or appended to sale registry.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Simulators & Payments -->
+                    <div class="pos-side-bar">
+                        <!-- Weight Scale Daemon simulator -->
+                        <div class="glass-card scale-simulator-card">
+                            <h3><i data-lucide="scale" class="scale-icon-pulse"></i> Raw Serial Scale Integration</h3>
+                            <div class="daemon-info">
+                                <span class="badge val-active">WebUSB Daemon: Online</span>
+                                <div>Serial Hardware Port: COM3</div>
+                            </div>
+                            <div class="scale-screen">
+                                <span class="scale-reading" id="lbl-live-scale-weight">0.000</span>
+                                <span class="scale-unit">KG</span>
+                            </div>
+                            <div class="scale-slider-controls">
+                                <label for="range-scale-slider">Simulate live scale weight adjustment:</label>
+                                <input type="range" id="range-scale-slider" min="0.1" max="10.0" step="0.05" value="1.5" oninput="updateScaleSimulatorValue()">
+                                <div class="slider-ticks">
+                                    <span>0.1 KG</span>
+                                    <span>5.0 KG</span>
+                                    <span>10.0 KG</span>
+                                </div>
+                            </div>
+                            <div class="info-alert compact">
+                                <i data-lucide="info"></i>
+                                <span>Selecting a vegetable category triggers hardware queries which pull readings synchronously into active cart row subtotals.</span>
+                            </div>
+                        </div>
+
+                        <!-- POS Payment Summary -->
+                        <div class="glass-card payment-card">
+                            <h3>Summary & Ledger Commit</h3>
+                            <div class="summary-details">
+                                <div class="summary-row">
+                                    <span>Total Items:</span>
+                                    <span id="lbl-cart-items-count">0</span>
+                                </div>
+                                <div class="summary-row total-row">
+                                    <span>Gross Payable:</span>
+                                    <span id="lbl-cart-total-payable">৳0.00</span>
+                                </div>
+                            </div>
+                            <button type="button" class="checkout-btn" id="btn-pos-checkout" onclick="executeCheckoutSubmit(event)">
+                                <i data-lucide="credit-card"></i> Process Sale & Output Invoice
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW: WASTAGE & DEFICITS -->
+            <section id="view-wastage" class="content-view">
+                <header class="view-header">
+                    <h1>Wastage & Rotting Loss Ledger</h1>
+                    <p>Report spoilage, expired, or damaged items</p>
+                </header>
+
+                <div class="wastage-layout">
+                    <!-- Spoilage Logger Form -->
+                    <div class="glass-card wastage-form">
+                        <h3>Report Stock Rot / Depreciations</h3>
+                        <form id="wastage-log-form" onsubmit="submitWastageReport(event)">
+                            <div class="form-group">
+                                <label for="wastage-product">Select Stock Item</label>
+                                <select id="wastage-product" required onchange="updateWastageCalculation()">
+                                    <!-- Rendered dynamically -->
+                                </select>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group flex-1">
+                                    <label for="wastage-qty">Wastage / Rotting Quantity</label>
+                                    <input type="number" id="wastage-qty" step="0.01" min="0.01" placeholder="e.g. 5.5" required oninput="updateWastageCalculation()">
+                                </div>
+                                <div class="form-group flex-1">
+                                    <label for="wastage-reason">Reason Flag</label>
+                                    <select id="wastage-reason">
+                                        <option value="Overripe / Moldy Spoilage">Overripe / Moldy Spoilage</option>
+                                        <option value="Natural Scale Shrinkage">Natural Scale Shrinkage</option>
+                                        <option value="Customer Damage">Customer Damage</option>
+                                        <option value="Defective Stock / Discard">Defective Stock / Discard</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Cost computation box -->
+                            <div class="wastage-preview-box">
+                                <div>Active Moving Average Cost: <strong id="lbl-wastage-mac">৳0.00</strong></div>
+                                <div>Valuation Shifting to Loss Ledger: <strong id="lbl-wastage-loss-total" class="text-danger">৳0.00</strong></div>
+                            </div>
+
+                            <button type="submit" class="submit-btn delete-btn" id="btn-log-wastage">
+                                <i data-lucide="trash-2"></i> Log Decay & Deduct Stock
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Spoilage Records Ledger -->
+                    <div class="glass-card wastage-log-records">
+                        <h3>Historical Wastage Ledger entries</h3>
+                        <div class="table-container">
+                            <table id="tbl-wastage-history">
+                                <thead>
+                                    <tr>
+                                        <th>Timestamp</th>
+                                        <th>SKU / Product Description</th>
+                                        <th>Qty Discarded</th>
+                                        <th>Calculated Unit Cost</th>
+                                        <th>Operating Loss Expense</th>
+                                        <th>Reasoning</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Populated dynamically -->
+                                    <tr class="empty-state">
+                                        <td colspan="6">No decay or stock write-off events have occurred.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW: SUPPLIERS -->
+            <section id="view-suppliers" class="content-view">
+                <header class="view-header">
+                    <h1>Supplier Ledgers & Payments</h1>
+                    <p>Track Accounts Payable balances and settle wholesale lot transaction histories</p>
+                </header>
+
+                <div class="suppliers-layout">
+                    <!-- Create Supplier Payments / Orders -->
+                    <div class="glass-card seller-billing">
+                        <h3>Register Invoice / Payment Event</h3>
+                        <form id="supplier-billing-form" onsubmit="submitSupplierTransaction(event)">
+
+
+                            <div class="form-group">
+                                <label for="billing-supplier-name">Supplier Name</label>
+                                <input type="text" id="billing-supplier-name" placeholder="e.g. Wholesale Outfitter Ltd" required list="suppliers-list-datalist">
+                                <datalist id="suppliers-list-datalist">
+                                    <!-- Rendered dynamically -->
+                                </datalist>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group flex-1">
+                                    <label for="billing-tx-type">Transaction Category</label>
+                                    <select id="billing-tx-type" required>
+                                        <option value="purchase_invoice">Purchase Invoice (I owe them money)</option>
+                                        <option value="payment">Disbursed Payment (I paid them money)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group flex-1">
+                                    <label for="billing-amount">Subtotal Amount (৳)</label>
+                                    <input type="number" id="billing-amount" step="0.01" min="0.01" placeholder="0.00" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="billing-ref">Transaction Reference Notes</label>
+                                <input type="text" id="billing-ref" placeholder="e.g. Bank transfer ID, Bale Lot #82">
+                            </div>
+
+                            <button type="submit" class="submit-btn" id="btn-save-supplier-billing">
+                                <i data-lucide="check-circle2"></i> Register Ledger Transaction
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Large Supplier Ledger Flow -->
+                    <div class="glass-card supplier-history-card">
+                        <h3>Accounts Payable Invoice Line Items</h3>
+                        <div class="table-container">
+                            <table id="tbl-supplier-ledger-transactions">
+                                <thead>
+                                    <tr>
+                                        <th>Timestamp</th>
+                                        <th>Wholesale Partner</th>
+                                        <th>Transaction Class</th>
+                                        <th>Net Amount</th>
+                                        <th>Notes Reference</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Rendered dynamically -->
+                                    <tr class="empty-state">
+                                        <td colspan="5">No vendor files loaded in ledger.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- VIEW: USER ACCOUNTS -->
+            <section id="view-users" class="content-view">
+                <header class="view-header">
+                    <h1>User Accounts</h1>
+                    <p>Manage login access and roles for the ERP system.</p>
+                </header>
+
+                <div id="user-management-denied" class="glass-card denied-card hidden">
+                    <h3>Access Denied</h3>
+                    <p>Only admin accounts can view and manage user accounts.</p>
+                </div>
+
+                <div class="glass-card user-management-card" id="user-management-card">
+                    <h3><i data-lucide="user-plus"></i> User Accounts & Role Settings</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem;">Admin users can view and create new user accounts.</p>
+
+                    <div class="table-container" style="margin-bottom: 1.5rem;">
+                        <table id="tbl-users-management">
+                            <thead>
+                                <tr>
+                                    <th>Username</th>
+                                    <th>Role</th>
+                                    <th>Created</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td colspan="3" style="text-align:center; color: var(--text-muted);">Loading user accounts...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="create-user-section">
+                        <h4 style="font-size: 0.95rem; margin-bottom: 1rem;">Create New User</h4>
+                        <form id="user-management-create-form" onsubmit="registerUserFromAccountsView(event)">
+                            <div class="form-row">
+                                <div class="form-group flex-1">
+                                    <label>Username</label>
+                                    <input id="user-management-username" placeholder="Enter username" required>
+                                </div>
+                                <div class="form-group flex-1">
+                                    <label>Password</label>
+                                    <input id="user-management-password" type="password" placeholder="Enter password" required>
+                                </div>
+                            </div>
+                            <div class="form-row" style="margin-top: 0.8rem;">
+                                <div class="form-group flex-1">
+                                    <label>Role</label>
+                                    <select id="user-management-role">
+                                        <option value="admin">Admin</option>
+                                        <option value="superadmin">SuperAdmin</option>
+                                        <option value="manager">Manager</option>
+                                        <option value="cashier">Cashier</option>
+                                        <option value="warehouse">Inventory Manager</option>
+                                        <option value="account head">Account Head</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-actions" style="margin-top: 1rem;">
+                                <button class="submit-btn" type="submit"><i data-lucide="plus"></i> Add User</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        <!-- VIEW: BRANCHES -->
+<section id="view-branches" class="content-view">
+<header class="view-header"><h1>Multi-Branch Management</h1><p>Manage store locations.</p></header>
+<div class="glass-card">
+<h3>Add New Branch</h3>
+<form id="branch-form" onsubmit="createBranch(event)">
+<div class="form-row"><div class="form-group flex-1"><label>Branch Name</label><input id="branch-name" placeholder="Downtown Store" required></div>
+<div class="form-group flex-1"><label>Branch Code</label><input id="branch-code" placeholder="DTN01" required></div></div>
+<button type="submit" class="submit-btn">Add Branch</button>
+</form></div>
+<div class="glass-card" style="margin-top:1rem;"><h3>All Branches</h3>
+<table id="tbl-branches"><thead><tr><th>Code</th><th>Name</th><th>Created</th></tr></thead>
+<tbody><tr class="empty-state"><td colspan="3">No branches yet.</td></tr></tbody></table></div>
+</section>
+<!-- VIEW: PURCHASES --><section id="view-purchases" class="content-view"><header class="view-header"><h1>Purchase Orders</h1><p>Create and manage inventory purchase orders.</p></header><div class="glass-card"><h3>New Purchase Order</h3><form id="purchase-form" onsubmit="createPurchase(event)"><div class="form-row"><div class="form-group flex-1"><label>Supplier</label><select id="purchase-supplier"><option>Select...</option></select></div><div class="form-group flex-1"><label>Branch</label><select id="purchase-branch"><option>Select...</option></select></div></div><div class="form-group"><label>Invoice</label><input id="purchase-invoice" placeholder="Invoice ref"></div><div class="purchase-items-section"><h4>Items</h4><div id="purchase-items-container"><div class="form-row purchase-item-row"><select class="form-group flex-2 purchase-product"><option>Product...</option></select><input type="number" class="form-group flex-1 purchase-qty" placeholder="Qty" step="0.01"><input type="number" class="form-group flex-1 purchase-cost" placeholder="Cost" step="0.01"><button type="button" class="btn-small btn-remove" onclick="this.parentElement.remove()">&times;</button></div></div><button type="button" class="btn-small" onclick="addPurchaseItemRow()">+ Add Item</button></div><button type="submit" class="submit-btn" style="margin-top:1rem;">Create Purchase Order</button></form></div><div class="glass-card" style="margin-top:1rem;"><h3>Purchase History</h3><table id="tbl-purchases"><thead><tr><th>Date</th><th>Supplier</th><th>Branch</th><th>Invoice</th><th>Amount</th></tr></thead><tbody><tr class="empty-state"><td colspan="5">No purchases yet.</td></tr></tbody></table></div></section><!-- VIEW: SALES --><section id="view-sales" class="content-view"><header class="view-header"><h1>Sales History</h1><p>View all completed sales transactions.</p></header><div class="glass-card"><h3>Recent Sales</h3><table id="tbl-sales"><thead><tr><th>Invoice</th><th>Date</th><th>Branch</th><th>Cashier</th><th>Customer</th><th>Amount</th><th>Status</th></tr></thead><tbody><tr class="empty-state"><td colspan="7">No sales yet.</td></tr></tbody></table></div><div class="glass-card" style="margin-top:1rem;"><h3>Sale Detail</h3><div class="form-row"><div class="form-group flex-1"><label>Sale ID</label><input id="sale-detail-id" type="number" placeholder="Invoice ID"></div><button class="submit-btn" onclick="loadSaleDetail()" style="margin-top:22px;">View</button></div><div id="sale-detail-result"></div></div></section><!-- VIEW: CUSTOMERS --><section id="view-customers" class="content-view"><header class="view-header"><h1>Customer Loyalty</h1><p>Manage customers, loyalty points and reward tiers.</p></header><div class="glass-card"><h3>Register Customer</h3><form id="customer-form" onsubmit="createCustomer(event)"><div class="form-row"><div class="form-group flex-1"><label>Name</label><input id="customer-name" placeholder="Full name" required></div><div class="form-group flex-1"><label>Phone</label><input id="customer-phone" placeholder="Phone"></div></div><div class="form-group"><label>Email</label><input id="customer-email" type="email" placeholder="Email"></div><button type="submit" class="submit-btn">Register Customer</button></form></div><div class="glass-card" style="margin-top:1rem;"><h3>Loyalty Tiers</h3><form id="loyalty-tier-form" onsubmit="createLoyaltyTier(event)" style="display:flex;gap:0.5rem;margin-bottom:1rem;"><input id="tier-name" placeholder="Tier" class="flex-1"><input id="tier-min-spend" type="number" placeholder="Min spend" class="flex-1"><input id="tier-discount" type="number" placeholder="Discount %" class="flex-1"><button type="submit" class="submit-btn" style="width:auto;">Add</button></form><div id="loyalty-tiers-list">No tiers.</div></div><div class="glass-card" style="margin-top:1rem;"><h3>All Customers</h3><table id="tbl-customers"><thead><tr><th>Name</th><th>Phone</th><th>Email</th><th>Loyalty ID</th><th>Points</th></tr></thead><tbody><tr class="empty-state"><td colspan="5">No customers.</td></tr></tbody></table></div></section><!-- VIEW: VAT --><section id="view-vat" class="content-view"><header class="view-header"><h1>VAT Management</h1><p>Configure VAT rates and calculate tax.</p></header><div class="glass-card"><h3>Configure VAT Rate</h3><form id="vat-rate-form" onsubmit="createVatRate(event)"><div class="form-row"><div class="form-group flex-1"><label>Rate Name</label><input id="vat-rate-name" placeholder="Standard VAT" required></div><div class="form-group flex-1"><label>Percentage (%)</label><input id="vat-rate-pct" type="number" placeholder="15" step="0.01" required></div></div><button type="submit" class="submit-btn">Add Rate</button></form></div><div class="form-row" style="gap:1rem;margin-top:1rem;"><div class="glass-card flex-1"><h3>VAT Calculator</h3><div class="form-group"><label>Amount</label><input id="vat-calc-amount" type="number" placeholder="0.00" step="0.01"></div><div class="form-group"><label>Rate</label><select id="vat-calc-rate"><option>Select...</option></select></div><button class="submit-btn" onclick="calculateVat()">Calculate</button><div id="vat-result" style="margin-top:1rem;"></div></div><div class="glass-card flex-1"><h3>Active VAT Rates</h3><div id="vat-rates-list">Loading...</div></div></div></section><!-- VIEW: BARCODE --><section id="view-barcode" class="content-view"><header class="view-header"><h1>Barcode Scanner</h1><p>Look up products by scanning or entering a barcode.</p></header><div class="glass-card"><h3>Scan Barcode</h3><div class="form-row"><div class="form-group flex-1"><label>Barcode</label><input id="barcode-input" placeholder="Scan or type barcode..." autofocus onkeydown="if(event.key==='Enter')lookupBarcode()"></div><button class="submit-btn" onclick="lookupBarcode()" style="margin-top:22px;">Lookup</button></div><div id="barcode-result" style="margin-top:1rem;"></div></div></section><!-- VIEW: ANALYTICS --><section id="view-analytics" class="content-view"><header class="view-header"><h1>Analytics & Reports</h1><p>Deep dive into sales performance and trends.</p></header><div class="glass-card"><div class="form-row" style="align-items:center;gap:1rem;"><h3>Overview</h3><select id="analytics-period" onchange="loadAnalytics()" style="width:auto;margin-left:auto;"><option value="week">7 Days</option><option value="month" selected>30 Days</option><option value="quarter">90 Days</option><option value="year">1 Year</option></select></div><div id="analytics-overview"><p>Select period and load.</p></div></div><div class="dashboard-grid" style="margin-top:1rem;"><div class="glass-card"><h3>By Category</h3><div id="analytics-categories">Loading...</div></div><div class="glass-card"><h3>By Branch</h3><div id="analytics-branches">Loading...</div></div></div></section><!-- VIEW: WIDGETS --><section id="view-widgets" class="content-view"><header class="view-header"><h1>Dashboard Widgets</h1><p>Real-time business metrics at a glance</p></header><div class="glass-card"><div class="card-header"><h3><i data-lucide="layout-grid"></i> Key Metrics</h3></div><div class="widget-grid"><div class="widget-item"><span class="widget-label">Today Sales</span><span class="widget-value" id="wd-today-sales">৳0</span></div><div class="widget-item"><span class="widget-label">Week Sales</span><span class="widget-value" id="wd-week-sales">৳0</span></div><div class="widget-item"><span class="widget-label">Month Sales</span><span class="widget-value" id="wd-month-sales">৳0</span></div><div class="widget-item"><span class="widget-label">Year Sales</span><span class="widget-value" id="wd-year-sales">৳0</span></div><div class="widget-item"><span class="widget-label">Today Expense</span><span class="widget-value" id="wd-today-expense">৳0</span></div><div class="widget-item"><span class="widget-label">Month Expense</span><span class="widget-value" id="wd-month-expense">৳0</span></div><div class="widget-item"><span class="widget-label">Profit</span><span class="widget-value" id="wd-profit">৳0</span></div><div class="widget-item"><span class="widget-label">Cash in Hand</span><span class="widget-value" id="wd-cash-balance">৳0</span></div><div class="widget-item"><span class="widget-label">Bank Balance</span><span class="widget-value" id="wd-bank-balance">৳0</span></div><div class="widget-item"><span class="widget-label">VAT Collected</span><span class="widget-value" id="wd-vat-collected">৳0</span></div><div class="widget-item"><span class="widget-label">Inventory Value</span><span class="widget-value" id="wd-inventory-value">৳0</span></div><div class="widget-item"><span class="widget-label">Supplier Due</span><span class="widget-value" id="wd-supplier-due">৳0</span></div><div class="widget-item"><span class="widget-label">Customers</span><span class="widget-value" id="wd-customers">0</span></div><div class="widget-item"><span class="widget-label">Suppliers</span><span class="widget-value" id="wd-suppliers">0</span></div><div class="widget-item"><span class="widget-label">Branches</span><span class="widget-value" id="wd-branches">0</span></div><div class="widget-item"><span class="widget-label">Employees</span><span class="widget-value" id="wd-employees">0</span></div><div class="widget-item"><span class="widget-label">Products</span><span class="widget-value" id="wd-products">0</span></div><div class="widget-item"><span class="widget-label">Low Stock</span><span class="widget-value" id="wd-low-stock">0</span></div><div class="widget-item"><span class="widget-label">Near Expiry</span><span class="widget-value" id="wd-near-expiry">0</span></div></div></div><div class="glass-card" style="margin-top:1rem;"><div class="card-header"><h3><i data-lucide="trending-up"></i> Top Products</h3></div><div class="table-container compact-table"><table><thead><tr><th>Product</th><th>Qty Sold</th><th>Revenue</th></tr></thead><tbody id="tbl-top-products"><tr><td colspan="3" class="empty-state">No data</td></tr></tbody></table></div></div></section><!-- VIEW: PRODUCTS ENHANCED -->
+<section id="view-products" class="content-view">
+    <header class="view-header">
+        <h1>Product Management</h1>
+        <p>Manage products with images, brands, batches & expiry</p>
+    </header>
+    <div class="inventory-layout">
+        <div class="glass-card form-box">
+            <form id="product-enhanced-form" class="custom-form" onsubmit="handleEnhancedProductSubmit(event)">
+                <div class="form-group">
+                    <label for="prod-title">Product Title *</label>
+                    <input type="text" id="prod-title" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group flex-1">
+                        <label for="prod-category">Category</label>
+                        <select id="prod-category"></select>
+                    </div>
+                    <div class="form-group flex-1">
+                        <label for="prod-brand">Brand</label>
+                        <input type="text" id="prod-brand" placeholder="e.g. Nestle, Unilever">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group flex-1">
+                        <label for="prod-sku">SKU / Barcode</label>
+                        <input type="text" id="prod-sku" placeholder="Auto-generated if blank">
+                    </div>
+                    <div class="form-group flex-1">
+                        <label for="prod-uom">Unit</label>
+                        <select id="prod-uom">
+                            <option value="Pcs">Pcs</option><option value="KG">KG</option>
+                            <option value="Gram">Gram</option><option value="LTR">LTR</option>
+                            <option value="BTL">BTL</option><option value="PKG">PKG</option>
+                            <option value="Bundle">Bundle</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group flex-1">
+                        <label for="prod-batch">Batch No</label>
+                        <input type="text" id="prod-batch" placeholder="e.g. BATCH-001">
+                    </div>
+                    <div class="form-group flex-1">
+                        <label for="prod-expiry">Expiry Date</label>
+                        <input type="date" id="prod-expiry">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group flex-1">
+                        <label for="prod-cost">Cost Price</label>
+                        <input type="number" id="prod-cost" step="0.01" placeholder="0.00">
+                    </div>
+                    <div class="form-group flex-1">
+                        <label for="prod-price">Selling Price</label>
+                        <input type="number" id="prod-price" step="0.01" placeholder="0.00">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="prod-image">Image URL</label>
+                    <input type="url" id="prod-image" placeholder="https://example.com/image.jpg">
+                </div>
+                <div class="form-group">
+                    <label for="prod-stock">Initial Stock</label>
+                    <input type="number" id="prod-stock" step="0.01" value="0">
+                </div>
+                <button type="submit" class="submit-btn"><i data-lucide="check"></i> Create Product</button>
+            </form>
+        </div>
+        <div class="glass-card table-box">
+            <div class="table-header">
+                <h3>All Products</h3>
+                <div class="search-bar">
+                    <i data-lucide="search"></i>
+                    <input type="text" id="product-enhanced-search" placeholder="Search..." oninput="loadEnhancedProducts()">
+                </div>
+            </div>
+            <div class="table-container list-table">
+                <table id="tbl-enhanced-products">
+                    <thead><tr><th>Product</th><th>Brand</th><th>SKU</th><th>Batch</th><th>Expiry</th><th>Cost</th><th>Price</th><th>Stock</th></tr></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- VIEW: STOCK TRANSFER -->
+<section id="view-stock-transfer" class="content-view">
+    <header class="view-header">
+        <h1>Stock Transfer</h1>
+        <p>Transfer stock between branches</p>
+    </header>
+    <div class="glass-card">
+        <h3>New Transfer</h3>
+        <form id="stock-transfer-form" onsubmit="submitStockTransfer(event)">
+            <div class="form-row">
+                <div class="form-group flex-1">
+                    <label>From Branch</label>
+                    <select id="transfer-from-branch"></select>
+                </div>
+                <div class="form-group flex-1">
+                    <label>To Branch</label>
+                    <select id="transfer-to-branch"></select>
+                </div>
+            </div>
+            <div class="purchase-items-section">
+                <h4>Items</h4>
+                <div id="transfer-items-container">
+                    <div class="form-row purchase-item-row">
+                        <select class="form-group flex-2 transfer-product"><option>Select product...</option></select>
+                        <input type="number" class="form-group flex-1 transfer-qty" placeholder="Qty" step="0.01">
+                        <button type="button" class="btn-small btn-remove" onclick="this.parentElement.remove()">&times;</button>
+                    </div>
+                </div>
+                <button type="button" class="btn-small" onclick="addTransferItemRow()">+ Add Item</button>
+            </div>
+            <button type="submit" class="submit-btn" style="margin-top:1rem;">Transfer Stock</button>
+        </form>
+    </div>
+    <div class="glass-card" style="margin-top:1rem;">
+        <h3>Transfer History</h3>
+        <table id="tbl-transfers"><thead><tr><th>Date</th><th>From</th><th>To</th><th>Status</th></tr></thead>
+        <tbody><tr class="empty-state"><td colspan="4">No transfers yet.</td></tr></tbody></table>
+    </div>
+</section>
+
+<!-- VIEW: STOCK AUDIT -->
+<section id="view-stock-audit" class="content-view">
+    <header class="view-header">
+        <h1>Stock Audit</h1>
+        <p>Physical stock verification and adjustment</p>
+    </header>
+    <div class="glass-card">
+        <h3>New Audit</h3>
+        <form id="stock-audit-form" onsubmit="submitStockAudit(event)">
+            <div class="form-group">
+                <label>Branch</label>
+                <select id="audit-branch"></select>
+            </div>
+            <div class="form-group">
+                <label>Notes</label>
+                <input id="audit-notes" placeholder="Optional notes">
+            </div>
+            <div class="audit-items-section">
+                <h4>Stock Items to Verify</h4>
+                <div id="audit-items-container">
+                    <div class="form-row purchase-item-row">
+                        <select class="form-group flex-2 audit-product"><option>Select product...</option></select>
+                        <input type="number" class="form-group flex-1 audit-expected" placeholder="Expected" step="0.01">
+                        <input type="number" class="form-group flex-1 audit-actual" placeholder="Actual" step="0.01">
+                        <button type="button" class="btn-small btn-remove" onclick="this.parentElement.remove()">&times;</button>
+                    </div>
+                </div>
+                <button type="button" class="btn-small" onclick="addAuditItemRow()">+ Add Item</button>
+            </div>
+            <button type="submit" class="submit-btn" style="margin-top:1rem;">Complete Audit</button>
+        </form>
+    </div>
+    <div class="glass-card" style="margin-top:1rem;">
+        <h3>Audit History</h3>
+        <table id="tbl-audits"><thead><tr><th>Date</th><th>Branch</th><th>Status</th><th>Items</th></tr></thead>
+        <tbody><tr class="empty-state"><td colspan="4">No audits yet.</td></tr></tbody></table>
+    </div>
+</section>
+
+<!-- VIEW: PURCHASE RETURNS -->
+<section id="view-purchase-returns" class="content-view">
+    <header class="view-header">
+        <h1>Purchase Returns</h1>
+        <p>Return defective or incorrect purchase items</p>
+    </header>
+    <div class="glass-card">
+        <h3>Record Return</h3>
+        <form id="purchase-return-form" onsubmit="submitPurchaseReturn(event)">
+            <div class="form-row">
+                <div class="form-group flex-1">
+                    <label>Purchase ID</label>
+                    <input type="number" id="pr-purchase-id" placeholder="Purchase ID">
+                </div>
+                <div class="form-group flex-1">
+                    <label>Supplier</label>
+                    <select id="pr-supplier"></select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Reason</label>
+                <input id="pr-reason" placeholder="Reason for return">
+            </div>
+            <div class="purchase-items-section">
+                <h4>Items</h4>
+                <div id="pr-items-container">
+                    <div class="form-row purchase-item-row">
+                        <select class="form-group flex-2 pr-product"><option>Select product...</option></select>
+                        <input type="number" class="form-group flex-1 pr-qty" placeholder="Qty" step="0.01">
+                        <input type="number" class="form-group flex-1 pr-cost" placeholder="Unit Cost" step="0.01">
+                        <button type="button" class="btn-small btn-remove" onclick="this.parentElement.remove()">&times;</button>
+                    </div>
+                </div>
+                <button type="button" class="btn-small" onclick="addPRItemRow()">+ Add Item</button>
+            </div>
+            <button type="submit" class="submit-btn" style="margin-top:1rem;">Submit Return</button>
+        </form>
+    </div>
+    <div class="glass-card" style="margin-top:1rem;">
+        <h3>Return History</h3>
+        <table id="tbl-purchase-returns"><thead><tr><th>Date</th><th>Purchase</th><th>Refund</th><th>Reason</th></tr></thead>
+        <tbody><tr class="empty-state"><td colspan="4">No returns yet.</td></tr></tbody></table>
+    </div>
+</section>
+
+<!-- VIEW: GRN -->
+<section id="view-grn" class="content-view">
+    <header class="view-header">
+        <h1>Goods Receive Note</h1>
+        <p>Confirm receipt of purchase orders</p>
+    </header>
+    <div class="glass-card">
+        <h3>Create GRN</h3>
+        <form id="grn-form" onsubmit="submitGRN(event)">
+            <div class="form-group">
+                <label>Purchase Order ID</label>
+                <input type="number" id="grn-purchase-id" required>
+            </div>
+            <div class="form-group">
+                <label>Branch</label>
+                <select id="grn-branch"></select>
+            </div>
+            <div class="form-group">
+                <label>Notes</label>
+                <input id="grn-notes" placeholder="Receiving notes">
+            </div>
+            <button type="submit" class="submit-btn">Create GRN</button>
+        </form>
+    </div>
+    <div class="glass-card" style="margin-top:1rem;">
+        <h3>GRN History</h3>
+        <table id="tbl-grns"><thead><tr><th>Date</th><th>Purchase ID</th><th>Note</th></tr></thead>
+        <tbody><tr class="empty-state"><td colspan="3">No GRNs yet.</td></tr></tbody></table>
+    </div>
+</section>
+
+<!-- VIEW: SALES RETURNS -->
+<section id="view-sales-returns" class="content-view">
+    <header class="view-header">
+        <h1>Sales Returns</h1>
+        <p>Handle customer returns and refunds</p>
+    </header>
+    <div class="glass-card">
+        <h3>New Return</h3>
+        <form id="sales-return-form" onsubmit="submitSalesReturn(event)">
+            <div class="form-group">
+                <label>Sale Invoice ID</label>
+                <input type="number" id="sr-sale-id" required>
+            </div>
+            <div class="form-group">
+                <label>Reason</label>
+                <input id="sr-reason" placeholder="Reason for return">
+            </div>
+            <div class="purchase-items-section">
+                <h4>Items to Return</h4>
+                <div id="sr-items-container">
+                    <div class="form-row purchase-item-row">
+                        <select class="form-group flex-2 sr-product"><option>Select product...</option></select>
+                        <input type="number" class="form-group flex-1 sr-qty" placeholder="Qty" step="0.01">
+                        <input type="number" class="form-group flex-1 sr-price" placeholder="Unit Price" step="0.01">
+                        <button type="button" class="btn-small btn-remove" onclick="this.parentElement.remove()">&times;</button>
+                    </div>
+                </div>
+                <button type="button" class="btn-small" onclick="addSRItemRow()">+ Add Item</button>
+            </div>
+            <button type="submit" class="submit-btn" style="margin-top:1rem;">Process Return</button>
+        </form>
+    </div>
+    <div class="glass-card" style="margin-top:1rem;">
+        <h3>Return History</h3>
+        <table id="tbl-sales-returns"><thead><tr><th>Date</th><th>Sale</th><th>Refund</th><th>Status</th></tr></thead>
+        <tbody><tr class="empty-state"><td colspan="4">No returns yet.</td></tr></tbody></table>
+    </div>
+</section>
+
+<!-- VIEW: ACCOUNTING -->
+<section id="view-accounting" class="content-view">
+    <header class="view-header">
+        <h1>Accounting</h1>
+        <p>Full double-entry accounting system with Chart of Accounts, Vouchers, and Reports</p>
+    </header>
+    <div class="accounting-tabs">
+        <button class="acct-tab active" data-tab="acct-coa" onclick="switchAccountingTab('acct-coa')">Chart of Accounts</button>
+        <button class="acct-tab" data-tab="acct-voucher" onclick="switchAccountingTab('acct-voucher')">Vouchers</button>
+        <button class="acct-tab" data-tab="acct-journal" onclick="switchAccountingTab('acct-journal')">Journal</button>
+        <button class="acct-tab" data-tab="acct-ledger" onclick="switchAccountingTab('acct-ledger')">Ledger</button>
+        <button class="acct-tab" data-tab="acct-trial" onclick="switchAccountingTab('acct-trial')">Trial Balance</button>
+        <button class="acct-tab" data-tab="acct-pl" onclick="switchAccountingTab('acct-pl')">P&L</button>
+        <button class="acct-tab" data-tab="acct-bs" onclick="switchAccountingTab('acct-bs')">Balance Sheet</button>
+        <button class="acct-tab" data-tab="acct-cashbook" onclick="switchAccountingTab('acct-cashbook')">Cash Book</button>
+        <button class="acct-tab" data-tab="acct-bankbook" onclick="switchAccountingTab('acct-bankbook')">Bank Book</button>
+        <button class="acct-tab" data-tab="acct-cashflow" onclick="switchAccountingTab('acct-cashflow')">Cash Flow</button>
+        <button class="acct-tab" data-tab="acct-income" onclick="switchAccountingTab('acct-income')">Income Statement</button>
+    </div>
+
+    <!-- Chart of Accounts -->
+    <div id="acct-coa" class="acct-panel active">
+        <div class="dash-two-col">
+            <div class="glass-card">
+                <h3><i data-lucide="folder-tree"></i> Chart of Accounts</h3>
+                <div class="account-tree" id="account-tree">
+                    <p class="chart-empty">Loading...</p>
+                </div>
+            </div>
+            <div class="glass-card">
+                <h3>Add New Account</h3>
+                <form id="account-head-form" onsubmit="submitNewAccountHead(event)">
+                    <div class="form-group">
+                        <label>Account Name</label>
+                        <input id="new-head-name" placeholder="e.g. Petty Cash" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Type</label>
+                        <select id="new-head-type" required>
+                            <option value="">Select type...</option>
+                            <option value="ASSET">Asset</option>
+                            <option value="LIABILITY">Liability</option>
+                            <option value="EQUITY">Equity</option>
+                            <option value="INCOME">Income</option>
+                            <option value="EXPENSE">Expense</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Parent Account (optional)</label>
+                        <select id="account-head-parent"><option value="">None (Top Level)</option></select>
+                    </div>
+                    <button type="submit" class="submit-btn" style="margin-top:0.5rem">Create Account</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vouchers -->
+    <div id="acct-voucher" class="acct-panel">
+        <div class="dash-two-col">
+            <div class="glass-card">
+                <h3><i data-lucide="file-plus"></i> New Voucher</h3>
+                <form id="voucher-form" onsubmit="submitVoucher(event)">
+                    <div class="form-row">
+                        <div class="form-group flex-1">
+                            <label>Type</label>
+                            <select id="voucher-type" required>
+                                <option value="">Select...</option>
+                                <option value="payment">Payment Voucher</option>
+                                <option value="receipt">Receipt Voucher</option>
+                                <option value="contra">Contra Voucher</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <input id="voucher-desc" placeholder="Voucher description">
+                    </div>
+                    <div class="journal-lines-section">
+                        <h4>Journal Lines</h4>
+                        <div id="voucher-lines"></div>
+                        <button type="button" class="btn-small" onclick="addVoucherLine()">+ Add Line</button>
+                    </div>
+                    <button type="submit" class="submit-btn" style="margin-top:0.5rem">Create Voucher</button>
+                </form>
+            </div>
+            <div class="glass-card">
+                <h3><i data-lucide="list"></i> Voucher History</h3>
+                <div class="table-container compact-table">
+                    <table id="tbl-vouchers">
+                        <thead><tr><th>Voucher No</th><th>Type</th><th>Amount</th><th>Description</th><th>Date</th><th>Status</th></tr></thead>
+                        <tbody><tr><td colspan="6" class="empty-state">No vouchers</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Journal (Collapsible Right Drawer) -->
+    <div id="acct-journal" class="acct-panel">
+        <button class="journal-toggle" onclick="toggleJournalDrawer()">
+            <i data-lucide="chevron-left" id="journal-chevron"></i>
+            <span>Journal Entry Panel</span>
+        </button>
+        <div class="journal-drawer collapsed" id="journal-drawer">
+            <div class="glass-card">
+                <h3>New Journal Entry</h3>
+                <form id="journal-form" onsubmit="submitJournalEntry(event)">
+                    <div class="form-group">
+                        <label>Description</label>
+                        <input id="journal-desc" placeholder="Entry description">
+                    </div>
+                    <div class="journal-lines-section">
+                        <h4>Journal Lines</h4>
+                        <div id="journal-lines-container"></div>
+                        <button type="button" class="btn-small" onclick="addJournalLineRow()">+ Add Line</button>
+                    </div>
+                    <button type="submit" class="submit-btn" style="margin-top:0.5rem">Post Entry</button>
+                </form>
+            </div>
+            <div class="glass-card" style="margin-top:1rem;">
+                <h3>Journal History</h3>
+                <div class="table-container compact-table">
+                    <table id="tbl-journal">
+                        <thead><tr><th>Date</th><th>Description</th><th>Total Debit</th><th>Total Credit</th></tr></thead>
+                        <tbody><tr class="empty-state"><td colspan="4">No entries yet.</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ledger (unchanged) -->
+    <div id="acct-ledger" class="acct-panel">
+        <div class="glass-card">
+            <h3>General Ledger</h3>
+            <div class="form-row">
+                <div class="form-group flex-1">
+                    <label>Account Head</label>
+                    <select id="ledger-head-filter"></select>
+                </div>
+                <div class="form-group flex-1">
+                    <label>&nbsp;</label>
+                    <button class="submit-btn" onclick="loadLedger()">View Ledger</button>
+                </div>
+            </div>
+            <div class="table-container compact-table" id="ledger-table"></div>
+        </div>
+    </div>
+
+    <!-- Trial Balance (unchanged) -->
+    <div id="acct-trial" class="acct-panel">
+        <div class="glass-card">
+            <h3>Trial Balance</h3>
+            <div class="table-container" id="trial-balance-table"></div>
+        </div>
+    </div>
+
+    <!-- P&L (unchanged) -->
+    <div id="acct-pl" class="acct-panel">
+        <div class="glass-card">
+            <h3>Profit & Loss</h3>
+            <div class="table-container" id="pl-table"></div>
+        </div>
+    </div>
+
+    <!-- Balance Sheet (unchanged) -->
+    <div id="acct-bs" class="acct-panel">
+        <div class="glass-card">
+            <h3>Balance Sheet</h3>
+            <div class="table-container" id="bs-table"></div>
+        </div>
+    </div>
+
+    <!-- Cash Book -->
+    <div id="acct-cashbook" class="acct-panel">
+        <div class="glass-card">
+            <h3><i data-lucide="wallet"></i> Cash Book</h3>
+            <button class="submit-btn" onclick="loadCashBook()">Refresh</button>
+            <div class="table-container compact-table" style="margin-top:0.75rem;">
+                <table id="tbl-cash-book">
+                    <thead><tr><th>Date</th><th>Description</th><th>Debit</th><th>Credit</th><th>Balance</th></tr></thead>
+                    <tbody><tr><td colspan="5" class="empty-state">Click Refresh to load</td></tr></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bank Book -->
+    <div id="acct-bankbook" class="acct-panel">
+        <div class="glass-card">
+            <h3><i data-lucide="building"></i> Bank Book</h3>
+            <button class="submit-btn" onclick="loadBankBook()">Refresh</button>
+            <div class="table-container compact-table" style="margin-top:0.75rem;">
+                <table id="tbl-bank-book">
+                    <thead><tr><th>Date</th><th>Description</th><th>Debit</th><th>Credit</th><th>Balance</th></tr></thead>
+                    <tbody><tr><td colspan="5" class="empty-state">Click Refresh to load</td></tr></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cash Flow -->
+    <div id="acct-cashflow" class="acct-panel">
+        <div class="glass-card">
+            <h3><i data-lucide="activity"></i> Cash Flow Statement</h3>
+            <button class="submit-btn" onclick="loadCashFlowReport()">Load Report</button>
+            <div id="cash-flow-content" style="margin-top:0.75rem;">
+                <p class="chart-empty">Click Load Report</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Income Statement -->
+    <div id="acct-income" class="acct-panel">
+        <div class="glass-card">
+            <h3><i data-lucide="trending-up"></i> Income Statement</h3>
+            <button class="submit-btn" onclick="loadIncomeStatement()">Load Report</button>
+            <div id="income-statement-content" style="margin-top:0.75rem;">
+                <p class="chart-empty">Click Load Report</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- VIEW: REPORTS -->
+<section id="view-reports" class="content-view">
+    <header class="view-header">
+        <h1>Reports & Exports</h1>
+        <p>Generate and export business reports</p>
+    </header>
+    <div class="reports-grid">
+        <div class="glass-card">
+            <h3>Sales Report</h3>
+            <div class="form-row">
+                <div class="form-group flex-1"><label>From</label><input type="date" id="rpt-sales-from"></div>
+                <div class="form-group flex-1"><label>To</label><input type="date" id="rpt-sales-to"></div>
+            </div>
+            <div class="form-actions">
+                <button class="submit-btn" onclick="exportSalesReport('json')">View</button>
+                <button class="submit-btn btn-export" onclick="exportSalesReport('csv')"><i data-lucide="file-text"></i> CSV</button>
+                <button class="submit-btn btn-export" onclick="exportSalesReport('xlsx')"><i data-lucide="file-spreadsheet"></i> Excel</button>
+                <button class="submit-btn btn-export" onclick="window.print()"><i data-lucide="printer"></i> Print</button>
+            </div>
+            <div class="table-container" style="margin-top:1rem;">
+                <table id="tbl-rpt-sales"><thead><tr><th>Invoice</th><th>Date</th><th>Amount</th><th>Status</th></tr></thead>
+                <tbody><tr class="empty-state"><td colspan="4">Run a report to see results.</td></tr></tbody></table>
+            </div>
+        </div>
+        <div class="glass-card">
+            <h3>Inventory Report</h3>
+            <div class="form-actions">
+                <button class="submit-btn" onclick="exportInventoryReport('json')">View</button>
+                <button class="submit-btn btn-export" onclick="exportInventoryReport('csv')"><i data-lucide="file-text"></i> CSV</button>
+                <button class="submit-btn btn-export" onclick="exportInventoryReport('xlsx')"><i data-lucide="file-spreadsheet"></i> Excel</button>
+                <button class="submit-btn btn-export" onclick="window.print()"><i data-lucide="printer"></i> Print</button>
+            </div>
+            <div class="table-container" style="margin-top:1rem;">
+                <table id="tbl-rpt-inventory"><thead><tr><th>Product</th><th>Stock</th><th>Value</th></tr></thead>
+                <tbody></tbody>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- VIEW: API DOCS -->
+<section id="view-api-docs" class="content-view" style="height:calc(100vh - 120px);display:none;">
+    <header class="view-header">
+        <h1>API Documentation</h1>
+        <p>Interactive Swagger API reference with Try It Out</p>
+    </header>
+    <div style="flex-grow:1;height:calc(100% - 60px);border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);">
+        <iframe src="/api/docs" style="width:100%;height:100%;border:none;background:#fff;"></iframe>
+    </div>
+</section>
+
+<!-- VIEW: AUDIT LOG / SECURITY -->
+<section id="view-audit-log" class="content-view">
+    <header class="view-header">
+        <h1>Security & System Logs</h1>
+        <p>Monitor system access, changes, and errors</p>
+    </header>
+    <div class="audit-tabs">
+        <button class="audit-tab active" data-tab="audit-logs" onclick="switchAuditTab('audit-logs')">Audit Log</button>
+        <button class="audit-tab" data-tab="login-history" onclick="switchAuditTab('login-history')">Login History</button>
+        <button class="audit-tab" data-tab="system-logs" onclick="switchAuditTab('system-logs');loadSystemLogs('')">System Logs</button>
+    </div>
+    <div id="audit-logs" class="audit-panel active">
+        <div class="glass-card">
+            <h3>System Audit Log</h3>
+            <div class="table-container"><table id="tbl-audit-logs"><thead><tr><th>Date</th><th>User</th><th>Action</th><th>Entity</th><th>IP</th></tr></thead>
+            <tbody><tr class="empty-state"><td colspan="5">No audit logs yet.</td></tr></tbody></table></div>
+        </div>
+    </div>
+    <div id="login-history" class="audit-panel">
+        <div class="glass-card">
+            <h3>Login History</h3>
+            <div class="table-container"><table id="tbl-login-history"><thead><tr><th>Date</th><th>Username</th><th>Status</th><th>IP</th></tr></thead>
+            <tbody><tr class="empty-state"><td colspan="4">No login records yet.</td></tr></tbody></table></div>
+        </div>
+    </div>
+    <div id="system-logs" class="audit-panel">
+        <div class="glass-card">
+            <h3><i data-lucide="terminal"></i> System Logs</h3>
+            <div class="syslog-tabs">
+                <button class="syslog-tab active" onclick="loadSystemLogs('')">All</button>
+                <button class="syslog-tab" onclick="loadSystemLogs('api')">API</button>
+                <button class="syslog-tab" onclick="loadSystemLogs('error')">Errors</button>
+                <button class="syslog-tab" onclick="loadSystemLogs('server')">Server</button>
+                <button class="syslog-tab" onclick="loadSystemLogs('activity')">Activity</button>
+            </div>
+            <div class="table-container"><table id="tbl-system-logs"><thead><tr><th>Type</th><th>Module</th><th>Message</th><th>IP</th><th>Time</th></tr></thead>
+            <tbody><tr class="empty-state"><td colspan="5">Loading...</td></tr></tbody></table></div>
+        </div>
+    </div>
+</section>
+
+<!-- VIEW: SYSTEM SETTINGS -->
+<section id="view-settings" class="content-view">
+    <header class="view-header">
+        <h1>System Settings</h1>
+        <p>Company profile, localization, database management</p>
+    </header>
+    <div class="settings-grid">
+        <div class="glass-card">
+            <h3><i data-lucide="building"></i> Company Information</h3>
+            <form id="company-info-form" onsubmit="submitCompanyInfo(event)">
+                <div class="form-group"><label>Company Name</label><input id="set-company-name"></div>
+                <div class="form-group"><label>Tagline</label><input id="set-company-tagline" placeholder="Your Neighborhood Market"></div>
+                <div class="form-row">
+                    <div class="form-group flex-1"><label>Address</label><input id="set-company-address" placeholder="House 12, Road 5"></div>
+                    <div class="form-group flex-1"><label>City</label><input id="set-company-city" placeholder="Chattogram, Bangladesh"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group flex-1"><label>Phone</label><input id="set-company-phone"></div>
+                    <div class="form-group flex-1"><label>Email</label><input id="set-company-email" type="email"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group flex-1"><label>Website</label><input id="set-company-website"></div>
+                    <div class="form-group flex-1"><label>VAT Reg No</label><input id="set-company-vat-reg"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group flex-1"><label>Branch</label><input id="set-company-branch" placeholder="Main Branch"></div>
+                    <div class="form-group flex-1"><label>VAT Rate (%)</label><input id="set-vat-rate" type="number" step="0.01" placeholder="5"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group flex-1"><label>Currency</label>
+                        <select id="set-currency">
+                            <option value="BDT">BDT (৳)</option>
+                            <option value="USD">USD ($)</option>
+                            <option value="EUR">EUR (€)</option>
+                            <option value="GBP">GBP (£)</option>
+                            <option value="INR">INR (₹)</option>
+                        </select>
+                    </div>
+                    <div class="form-group flex-1"><label>Language</label>
+                        <select id="set-language">
+                            <option value="en">English</option>
+                            <option value="bn">বাংলা</option>
+                            <option value="ar">العربية</option>
+                            <option value="hi">हिन्दी</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group flex-1"><label>Timezone</label>
+                        <select id="set-timezone">
+                            <option value="Asia/Dhaka">Asia/Dhaka (UTC+6)</option>
+                            <option value="Asia/Kolkata">Asia/Kolkata (UTC+5:30)</option>
+                            <option value="UTC">UTC</option>
+                        </select>
+                    </div>
+                    <div class="form-group flex-1"><label>Invoice Prefix</label><input id="set-invoice-prefix" placeholder="INV-"></div>
+                </div>
+                <div class="form-group"><label>Return Policy</label>
+                    <input id="set-return-policy" placeholder="Returns accepted within 7 days with original receipt"></div>
+                <div class="form-group"><label>Invoice Footer</label>
+                    <textarea id="set-invoice-footer" rows="2" placeholder="Thank you for your business!"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group flex-1"><label>Logo URL</label><input id="set-company-logo"></div>
+                    <div class="form-group flex-1"><label>Receipt Logo (emoji)</label><input id="set-receipt-logo" placeholder="💰" style="font-size:1.2rem;"></div>
+                </div>
+                <button type="submit" class="submit-btn">Save Company Info</button>
+            </form>
+        </div>
+        <div class="glass-card">
+            <h3><i data-lucide="database"></i> Backup & Restore</h3>
+            <div class="backup-actions">
+                <button class="submit-btn" onclick="createBackup()"><i data-lucide="database"></i> Create Backup</button>
+            </div>
+            <div class="table-container compact-table" style="margin-top:0.75rem;">
+                <table id="tbl-backups">
+                    <thead><tr><th>Filename</th><th>Type</th><th>Size</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead>
+                    <tbody><tr><td colspan="6" class="empty-state">No backups yet</td></tr></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+            <!-- Footer -->
+            <footer class="app-footer">
+                <span>Super Shop ERP v1.0.0</span>
+                <span class="footer-divider">|</span>
+                <span>&copy; 2026 All Rights Reserved</span>
+                <span class="footer-divider">|</span>
+                <span>Build: Stable</span>
+                <span class="footer-divider">|</span>
+                <span>Database: SQLite</span>
+                <span class="footer-divider">|</span>
+                <span>API: v1</span>
+            </footer>
+        </main>
+    </div>
+</div>
+</body>
+</html>

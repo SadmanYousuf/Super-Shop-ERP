@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Super Shop - Sign In</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+<script>
+if (window.location.protocol === 'file:') {
+    document.write('<div style="display:flex;align-items:center;justify-content:center;min-height:100vh;width:100%;background:#0a0a1a;color:#e2e8f0;font-family:sans-serif;padding:2rem;text-align:center;">' +
+        '<div style="max-width:500px;">' +
+        '<h1 style="color:#a78bfa;font-size:2rem;margin-bottom:1rem;">Server Not Running</h1>' +
+        '<p style="font-size:1.1rem;margin-bottom:1rem;">You opened this file directly. You must start the server first.</p>' +
+        '<div style="background:#16163a;border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:1.5rem;text-align:left;">' +
+        '<h3 style="color:#fff;margin-bottom:0.75rem;">Step 1: Open Terminal</h3>' +
+        '<p style="margin-bottom:0.5rem;">Press <strong>Win+R</strong>, type <strong>cmd</strong>, press Enter</p>' +
+        '<h3 style="color:#fff;margin:1rem 0 0.75rem;">Step 2: Run this command</h3>' +
+        '<code style="display:block;background:#0a0a1a;padding:0.75rem;border-radius:8px;font-size:0.9rem;margin-bottom:1rem;">cd E:\\ERP SUPER SHOP<br>python app.py</code>' +
+        '<h3 style="color:#fff;margin-bottom:0.75rem;">Step 3: Open Browser</h3>' +
+        '<p>Go to <strong>http://localhost:5000/login.html</strong></p>' +
+        '<h3 style="color:#fff;margin:1rem 0 0.75rem;">Login</h3>' +
+        '<p>Username: <strong>admin</strong> &nbsp; Password: <strong>admin123</strong></p>' +
+        '</div></div>');
+    throw new Error('Server not running');
+}
+</script>
+<div class="login-fullpage">
+    <div class="login-panel">
+        <div class="brand-block" style="text-align:center;padding:1.5rem 0 0.5rem">
+            <div class="brand-mark" style="margin:0 auto">S</div>
+            <h1 style="margin:0.5rem 0 0.25rem;font-size:1.5rem">Super Shop</h1>
+            <p style="color:rgba(255,255,255,0.4);font-size:0.85rem">Sign in to your dashboard</p>
+        </div>
+
+        <form id="login-form-page" class="login-form-page" style="padding:0.5rem 2rem 2rem">
+            <div id="login-error" class="error-msg" role="alert"></div>
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input id="username" name="username" placeholder="Enter your username" required autocomplete="username">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input id="password" name="password" type="password" placeholder="Enter your password" required autocomplete="current-password">
+            </div>
+            <div class="form-row">
+                <label class="checkbox-field"><input type="checkbox" id="remember" name="remember"> Remember me</label>
+                <button type="button" class="forgot-link" onclick="showForgotPassword()">Forgot password?</button>
+            </div>
+            <button type="submit" class="submit-btn" style="width:100%;padding:0.75rem;font-size:1rem;margin-top:0.5rem">Sign In</button>
+            <div class="form-note" style="margin-top:1rem">
+                <span>Don't have an account?</span>
+                <button type="button" id="show-signup" class="link-btn">Sign Up</button>
+            </div>
+        </form>
+
+        <form id="signup-form-page" class="login-form-page" style="display:none;padding:0.5rem 2rem 2rem">
+            <div id="signup-error" class="error-msg" role="alert"></div>
+            <div class="form-group">
+                <label for="signup-username">Username</label>
+                <input id="signup-username" name="signup-username" placeholder="Choose a username" required>
+            </div>
+            <div class="form-group">
+                <label for="signup-password">Password</label>
+                <input id="signup-password" name="signup-password" type="password" placeholder="Enter a password" required>
+            </div>
+            <div class="form-group">
+                <label for="signup-confirm">Confirm Password</label>
+                <input id="signup-confirm" name="signup-confirm" type="password" placeholder="Confirm password" required>
+            </div>
+            <div class="form-group">
+                <label for="signup-role">Role</label>
+                <div class="select-wrap">
+                    <select id="signup-role" name="signup-role" required>
+                        <option value="account head">Account Head</option>
+                        <option value="moder admin">Moder Admin</option>
+                        <option value="admin">Admin</option>
+                        <option value="superadmin">Super Admin</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-help" id="signup-help" style="font-size:0.78rem;color:var(--text-dim);margin-bottom:0.75rem">Note: Only Account Head can self-register here.</div>
+            <button type="submit" class="submit-btn" style="width:100%;padding:0.75rem">Create Account</button>
+            <button type="button" id="show-signin" class="secondary-btn" style="width:100%;margin-top:0.5rem">Back to Sign In</button>
+        </form>
+    </div>
+</div>
+
+<!-- Forgot Password Modal -->
+<div id="forgot-modal" class="modal-overlay" style="display:none" onclick="if(event.target===this)hideForgotPassword()">
+    <div class="modal-box" onclick="event.stopPropagation()">
+        <div class="modal-header">
+            <h3>Reset Password</h3>
+            <button type="button" class="modal-close" onclick="hideForgotPassword()">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p>Enter your username. Your password will be reset to <strong>reset123</strong>.</p>
+            <div class="form-group">
+                <label for="forgot-username">Username</label>
+                <input id="forgot-username" placeholder="Enter your username">
+            </div>
+            <div id="forgot-error" class="error-msg"></div>
+            <button type="button" class="submit-btn" onclick="submitForgotPassword()">Reset Password</button>
+        </div>
+    </div>
+</div>
+
+<script>
+function getAuthToken() {
+    try { return localStorage.getItem('erp_token') || ''; } catch { return ''; }
+}
+function getAuthRole() {
+    try { return localStorage.getItem('erp_role') || ''; } catch { return ''; }
+}
+function getAuthHeaders() {
+    const token = getAuthToken();
+    const headers = { 'Content-Type': 'application/json' };
+    if (token) headers.Authorization = `Bearer ${token}`;
+    return headers;
+}
+function showSignupForm() {
+    document.getElementById('login-form-page').style.display = 'none';
+    document.getElementById('signup-form-page').style.display = 'block';
+    document.getElementById('login-error').classList.remove('show');
+    document.getElementById('login-error').innerText = '';
+}
+function showSigninForm() {
+    document.getElementById('signup-form-page').style.display = 'none';
+    document.getElementById('login-form-page').style.display = 'block';
+    document.getElementById('signup-error').classList.remove('show');
+    document.getElementById('signup-error').innerText = '';
+}
+document.getElementById('show-signup').addEventListener('click', showSignupForm);
+document.getElementById('show-signin').addEventListener('click', showSigninForm);
+
+// Login
+document.getElementById('login-form-page').addEventListener('submit', async function(e){
+    e.preventDefault();
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value;
+    const errEl = document.getElementById('login-error');
+    errEl.classList.remove('show');
+    errEl.innerText = '';
+    if(!username || !password){
+        errEl.innerText = 'Provide username and password';
+        errEl.classList.add('show');
+        return;
+    }
+    try{
+        const res = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+        });
+        const bodyText = await res.text();
+        let data;
+        try { data = JSON.parse(bodyText); } catch(e){
+            errEl.innerText = 'Server returned invalid data (status ' + res.status + '). Check F12 > Console.';
+            errEl.classList.add('show');
+            return;
+        }
+        if(!res.ok || data.success === false){
+            errEl.innerText = data.error || 'Login failed. Check credentials.';
+            errEl.classList.add('show');
+            return;
+        }
+        localStorage.setItem('erp_token', data.token);
+        localStorage.setItem('erp_username', data.username);
+        localStorage.setItem('erp_role', data.role);
+        window.location = '/dashboard';
+    } catch (err){
+        console.error('LOGIN ERROR:', err);
+        errEl.innerText = 'ERROR: ' + (err.message || err || 'Unknown') + '. Press F12 > Console for details.';
+        errEl.classList.add('show');
+    }
+});
+
+// Signup
+document.getElementById('signup-form-page').addEventListener('submit', async function(e){
+    e.preventDefault();
+    const username = document.getElementById('signup-username').value.trim();
+    const password = document.getElementById('signup-password').value;
+    const confirm = document.getElementById('signup-confirm').value;
+    const errEl = document.getElementById('signup-error');
+    errEl.classList.remove('show');
+    errEl.innerText = '';
+    if(!username || !password || !confirm){
+        errEl.innerText = 'Fill all signup fields';
+        errEl.classList.add('show');
+        return;
+    }
+    if(password !== confirm){
+        errEl.innerText = 'Passwords do not match';
+        errEl.classList.add('show');
+        return;
+    }
+    try{
+        const role = document.getElementById('signup-role').value;
+        const res = await fetch('/api/auth/register', {
+            method: 'POST',
+            headers: getAuthHeaders(),
+            body: JSON.stringify({ username, password, role })
+        });
+        const data = await res.json();
+        if(!res.ok || data.success === false){
+            errEl.innerText = data.error || 'Signup failed. Contact administrator.';
+            errEl.classList.add('show');
+            return;
+        }
+        alert('Account created successfully. Please sign in.');
+        showSigninForm();
+    } catch (err){
+        console.error('SIGNUP ERROR:', err);
+        errEl.innerText = 'ERROR: ' + (err.message || err || 'Unknown') + '. Press F12 > Console for details.';
+        errEl.classList.add('show');
+    }
+});
+
+// Forgot Password
+function showForgotPassword() {
+    document.getElementById('forgot-modal').style.display = 'flex';
+    document.getElementById('forgot-username').value = '';
+    document.getElementById('forgot-error').className = 'error-msg';
+    document.getElementById('forgot-error').innerText = '';
+}
+function hideForgotPassword() {
+    document.getElementById('forgot-modal').style.display = 'none';
+}
+async function submitForgotPassword() {
+    const username = document.getElementById('forgot-username').value.trim();
+    const errEl = document.getElementById('forgot-error');
+    if (!username) { errEl.innerText = 'Enter your username'; errEl.classList.add('show'); return; }
+    errEl.className = 'error-msg';
+    errEl.innerText = '';
+    try {
+        const res = await fetch('/api/auth/forgot-password', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username })
+        });
+        const data = await res.json();
+        if (!res.ok || data.success === false) {
+            errEl.innerText = data.error || 'Reset failed';
+            errEl.classList.add('show');
+            return;
+        }
+        alert(data.message || 'Password reset successfully');
+        hideForgotPassword();
+    } catch (err) {
+        errEl.innerText = 'ERROR: ' + (err.message || err);
+        errEl.classList.add('show');
+    }
+}
+</script>
+</body>
+</html>

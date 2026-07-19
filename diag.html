@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>ERP Diagnostic</title></head>
+<body style="background:#111;color:#e2e8f0;font-family:monospace;padding:2rem">
+  <h2>ERP Diagnostic</h2>
+  <div id="out"></div>
+  <script>
+    const out = document.getElementById('out');
+    function log(msg) { out.innerHTML += msg + '<br>'; }
+
+    log('Page URL: ' + window.location.href);
+    log('Origin: ' + window.location.origin);
+
+    async function testAPI() {
+      log('--- Testing /api/auth/login POST ---');
+      try {
+        const r = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username: 'admin', password: 'admin123' })
+        });
+        log('Status: ' + r.status + ' ' + r.statusText);
+        log('Content-Type: ' + (r.headers.get('Content-Type') || 'N/A'));
+        const text = await r.text();
+        log('Body length: ' + text.length);
+        log('Body: ' + text.substring(0, 200));
+      } catch(e) {
+        log('FETCH ERROR: ' + e.message);
+      }
+
+      log('--- Testing GET /login.html ---');
+      try {
+        const r = await fetch('/login.html');
+        log('Status: ' + r.status);
+      } catch(e) {
+        log('FETCH ERROR: ' + e.message);
+      }
+
+      log('--- Done ---');
+    }
+
+    testAPI();
+  </script>
+</body>
+</html>
